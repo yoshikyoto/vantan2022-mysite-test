@@ -7,7 +7,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from blog.models import Article
  
 def index(request):
-    return render(request, "blog/index.html")
+    # Article の model を使ってすべての記事を取得する
+    # Article.objects.all() は article のリストが返ってくる
+    articles = Article.objects.all()
+
+    # こうすることで、article 変数をテンプレートにわたす事ができる
+    # {テンプレート上での変数名: 渡す変数}
+    return render(request, "blog/index.html", {
+        "articles": articles
+    })
 
 def detail(request):
     return HttpResponse("detail page")
@@ -63,3 +71,16 @@ class MypageArticleView(LoginRequiredMixin, View):
         )
         article.save()
         return render(request, "blog/article_created.html")
+
+# 記事一覧を表示する View
+class ArticleListView(View):
+    def get(self, request):
+        # Django の機能である model を使ってすべての記事を取得する
+        # articles は article のリストになる
+        articles = Article.objects.all()
+
+        # 取得した記事一覧をテンプレートにわたす
+        # こうすると、テンプレートの中で articles という変数が渡せる
+        return render(request, "blog/articles.html", {
+            "articles": articles
+        })
