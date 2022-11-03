@@ -10,8 +10,11 @@
         </div>
         <h2>投稿された記事一覧</h2>
         {% for article in articles %}
-            <div>{{ article.title }}</div>
+            <div>
+                <a href="/blog/articles/{{ article.id }}">
+                    {{ article.title }}
+                </a>
+            </div>
         {% endfor %}
     </body>
 </html>
-
