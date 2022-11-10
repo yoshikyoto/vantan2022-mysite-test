@@ -64,7 +64,7 @@ class ArticleCreateView(LoginRequiredMixin, View):
 
 class MypageArticleView(LoginRequiredMixin, View):
     def post(self, request):
-        """新しく記事を作製する"""
+        """新しく記事を作成する"""
         # リクエストで受け取った情報をDBに保存する
         article = Article(
             title=request.POST["title"],
@@ -95,5 +95,13 @@ class ArticleView(View):
         # get は条件に合致した記事を一つ取得する
         article = Article.objects.get(id=id)
         return render(request, "blog/article.html", {
+            "article": article,
+        })
+
+# 記事編集ページを表示する view
+class MypageArticleIdEditView(View):
+    def get(self, request, id):
+        article = Article.objects.get(id=id)
+        return render(request, "blog/article_edit.html", {
             "article": article,
         })
