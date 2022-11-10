@@ -16,5 +16,13 @@
                 </a>
             </div>
         {% endfor %}
+        <h2>Qiitaの記事一覧</h2>
+        {% for qiita_article in qiita_articles %}
+            <div>
+                <a href="{{ qiita_article.url }}">
+                    {{ qiita_article.title }}
+                </a>
+            </div>
+        {% endfor %}
     </body>
 </html>
