@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from blog.models import Article
 from blog.qiita import QiitaApiClient
+from django.http import JsonResponse
 
 def index(request):
     # Article の model を使ってすべての記事を取得する
@@ -112,3 +113,25 @@ class MypageArticleIdEditView(View):
         return render(request, "blog/article_edit.html", {
             "article": article,
         })
+
+class ArticleApiView(View):
+    
+    def get(self, request):
+        # DB から Article を取得
+        # articles は blog.models.Article のリスト
+        articles = Article.objects.all()
+
+        # Article オブジェクトのリストを、dict の list に変換
+        dict_articles = []
+        for article in articles:
+            dict_article = {
+                "id": article.id,
+                "title": article.title,
+                "body": article.body,
+            }
+            dict_articles.append(dict_article)
+
+        json = {
+            "articles": dict_articles,
+        }
+        return JsonResponse(json)
