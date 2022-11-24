@@ -7,8 +7,11 @@ class QiitaApiClient:
         # get リクエストを送る
         response = requests.get(
             "https://qiita.com/api/v2/tags/django/items",
-            headers={"Authorization": "Bearer c40e213d7c29e8fc239c0d0390b4bd8db6644c7f"},
+            headers={"Authorization": "Bearer xxxx"},
         )
+
+        if response.status_code != 200:
+            raise RuntimeError("Qiitaの記事が取得できませんでした")
 
         qiita_articles = []
         json = response.json()
